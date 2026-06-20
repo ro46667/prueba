@@ -1,0 +1,63 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>➕ Nuevo Partido</h2>
+      <a routerLink="/matches" class="btn btn-back">← Volver</a>
+    </div>
+
+    <div *ngIf="errorMsg" class="alert-error">⚠️ {{ errorMsg }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Equipo Local *</label>
+          <input formControlName="team_home" type="text" placeholder="Ej: Argentina" [class.is-invalid]="isInvalid('team_home')">
+          <span class="field-error" *ngIf="isInvalid('team_home')">Campo obligatorio</span>
+        </div>
+        <div class="form-group">
+          <label>Equipo Visitante *</label>
+          <input formControlName="team_away" type="text" placeholder="Ej: Francia" [class.is-invalid]="isInvalid('team_away')">
+          <span class="field-error" *ngIf="isInvalid('team_away')">Campo obligatorio</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Goles Local *</label>
+          <input formControlName="goals_home" type="number" min="0" [class.is-invalid]="isInvalid('goals_home')">
+          <span class="field-error" *ngIf="isInvalid('goals_home')">Mínimo 0</span>
+        </div>
+        <div class="form-group">
+          <label>Goles Visitante *</label>
+          <input formControlName="goals_away" type="number" min="0" [class.is-invalid]="isInvalid('goals_away')">
+          <span class="field-error" *ngIf="isInvalid('goals_away')">Mínimo 0</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estado *</label>
+          <select formControlName="match_status">
+            <option value="Pendiente">Pendiente</option>
+            <option value="En Curso">En Curso</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha y Hora *</label>
+          <input formControlName="match_date" type="datetime-local" [class.is-invalid]="isInvalid('match_date')">
+          <span class="field-error" *ngIf="isInvalid('match_date')">Campo obligatorio</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/matches" class="btn btn-cancel">Cancelar</a>
+        <button type="submit" class="btn btn-save" [disabled]="submitting">
+          {{ submitting ? 'Guardando...' : '💾 Guardar Partido' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

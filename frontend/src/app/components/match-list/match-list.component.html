@@ -1,0 +1,54 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2 class="page-title">⚽ Partidos del Mundial</h2>
+    <a routerLink="/matches/new" class="btn btn-create">+ Nuevo Partido</a>
+  </div>
+
+  <div *ngIf="loading" class="state-message loading">
+    <span class="spinner"></span> Cargando partidos...
+  </div>
+
+  <div *ngIf="error" class="state-message error">
+    ⚠️ {{ error }}
+    <button (click)="loadMatches()" class="btn btn-retry">Reintentar</button>
+  </div>
+
+  <div *ngIf="!loading && !error && matches.length === 0" class="state-message empty">
+    No hay partidos registrados.
+    <a routerLink="/matches/new" class="btn btn-create" style="margin-top:1rem;">Crear primer partido</a>
+  </div>
+
+  <div class="matches-grid" *ngIf="!loading && !error && matches.length > 0">
+    <div class="match-card" *ngFor="let match of matches">
+
+      <div class="card-header">
+        <span class="match-date">{{ formatDate(match.match_date) }}</span>
+        <span class="status-badge" [ngClass]="statusClass(match.match_status)">
+          {{ match.match_status }}
+        </span>
+      </div>
+
+      <div class="scoreboard">
+        <div class="team local">
+          <span class="team-name">{{ match.team_home }}</span>
+        </div>
+
+        <div class="score-box">
+          <span class="score">{{ match.goals_home }}</span>
+          <span class="score-sep">–</span>
+          <span class="score">{{ match.goals_away }}</span>
+        </div>
+
+        <div class="team visitor">
+          <span class="team-name">{{ match.team_away }}</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <a [routerLink]="['/matches', match.id, 'edit']" class="btn btn-edit">✏️ Editar</a>
+        <button (click)="deleteMatch(match.id, match.team_home, match.team_away)" class="btn btn-delete">🗑️ Eliminar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
